@@ -65,6 +65,6 @@ void DoDashes(int times)
 		else
 			keybd_event(VK_KEY_A, SC_KEY_A, KEYEVENTF_KEYUP, 0);
 
-		MoveDir = !MoveDir;
+		MoveDir = !MoveDir; // Change directions
 	}
 }
