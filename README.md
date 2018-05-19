@@ -1,7 +1,7 @@
 ## Hyper Light Drifter - Autodasher
 This is a tool that automates chain dashing in the game Hyper Light Drifter to unlock the relevant achievements with no effort.
 
-![gif](https://gfycat.com/OilyImpracticalAcornwoodpecker)
+![gif](https://i.imgur.com/vqD0BGR.gifv)
 
 Compile for Windows, run the game, stand on the recharge mat in the dashing room, and press Insert. Be sure to keep the game window focused as it uses Windows keyboard events to send input to the game window.
 
