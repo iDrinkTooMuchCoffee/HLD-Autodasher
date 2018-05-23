@@ -1,18 +1,26 @@
 #include <Windows.h>
 #include <iostream>
 
-#define VK_KEY_A 0x41
-#define VK_KEY_D 0x44
-#define SC_KEY_A 0x1E
-#define SC_KEY_D 0x20
-#define SC_SPACE 0x39
+struct Key
+{
+	DWORD VK;
+	DWORD SC;
+};
+
+Key* KEY_A = new Key();
+Key* KEY_D = new Key();
+Key* KEY_SPACE = new Key();
 
 void Display();
 void DoDashes(int times);
+void KeyDown(Key* key);
+void KeyUp(Key* key);
+void SetupKeys();
 
 int main()
 {
 	Display();
+	SetupKeys();
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_INSERT))
@@ -40,31 +48,41 @@ void Display()
 	std::cout << "|______________________________________________________|" << std::endl;
 }
 
+void SetupKeys()
+{
+	KEY_A->VK = 0x41;
+	KEY_A->SC = 0x1E;
+	KEY_D->VK = 0x44;
+	KEY_D->SC = 0x20;
+	KEY_SPACE->VK = 0x20;
+	KEY_SPACE->SC = 0x39;
+}
+
 void DoDashes(int times)
 {
 	std::cout << "\nDashing..." << std::endl;
-
 	bool MoveDir = TRUE; // Use this to alternate between left and right. TRUE = Right / FALSE = Left
 
-	int i = 0;
-	while (i <= times)
+	for (int i = 0; i <= times; i++)
 	{
 		if (MoveDir)
-			keybd_event(VK_KEY_D, SC_KEY_D, 0, 0);
+			KeyDown(KEY_D);
 		else
-			keybd_event(VK_KEY_A, SC_KEY_A, 0, 0);
+			KeyDown(KEY_A);
 
-		keybd_event(VK_SPACE, SC_SPACE, 0, 0);
+		KeyDown(KEY_SPACE);
 		Sleep(16);
-		keybd_event(VK_SPACE, SC_SPACE, KEYEVENTF_KEYUP, 0);
+		KeyUp(KEY_SPACE);
 		Sleep(250);
-		i++;
 
 		if (MoveDir)
-			keybd_event(VK_KEY_D, SC_KEY_D, KEYEVENTF_KEYUP, 0);
+			KeyUp(KEY_D);
 		else
-			keybd_event(VK_KEY_A, SC_KEY_A, KEYEVENTF_KEYUP, 0);
+			KeyUp(KEY_A);
 
 		MoveDir = !MoveDir; // Change directions
 	}
 }
+
+void KeyDown(Key* key) { keybd_event(key->VK, key->SC, 0, 0); }
+void KeyUp(Key* key)   { keybd_event(key->VK, key->SC, KEYEVENTF_KEYUP, 0); }
